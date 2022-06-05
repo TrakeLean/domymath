@@ -1,5 +1,8 @@
 def find_POA(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA):
     if POA == None:
+        if PONA != None:
+            POA = 1 + PONA
+            return POA
         if POAGB == None:
             POAGB = find_POAGB(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA)
         if POB == None:
@@ -10,6 +13,9 @@ def find_POA(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA):
     return POA
 def find_POB(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA):
     if POB == None:
+        if PONB != None:
+            POB = 1 + PONB
+            return POB
         if POBGA == None:
             POAGB = find_POAGB(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA)
         if POA == None:
@@ -34,19 +40,35 @@ def find_PONB(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA):
 
 def find_POAGB(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA):
     if POAGB == None:
-        if POB == None:
-            POB = find_POB(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA)
-        if POAAB == None:
-            POAAB = find_POAAB(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA)
-        POAGB = (POAAB / POB)   
+        try:
+            if POB == None:
+                POB = find_POB(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA)
+            if POA == None:
+                POA = find_POA(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA)
+            if POBGA == None:
+                POBGA = find_POBGA(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA)
+            POAGB = (POBGA * POA) / POB
+        except:
+            if POAAB == None:
+                POAAB = find_POAAB(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA)
+            if POB == None:
+                POB = find_POB(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA)
+            POAGB = POAAB / POB
     return  POAGB   
 def find_POBGA(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA):
     if POBGA == None:
-        if POA == None:
-            POA = find_POA(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA)
-        if POBAA == None:
-            POBAA = find_POBAA(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA)
-        POBGA = (POBAA / POA) 
+        try:
+            if POA == None:
+                POA = find_POA(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA)
+            if POAGB == None:
+                POAGB = find_POAGB(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA)
+            POBGA = (POAGB * POB) / POA
+        except:
+            if POBAA == None:
+                POBAA = find_POBAA(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA)
+            if POA == None:
+                POA = find_POA(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA)
+            POAGB = POBAA / POA
     return POBGA
 
 def find_POAAB(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA):
@@ -83,9 +105,9 @@ def find_POBOA(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA):
     return POBOA
 
 # P off A
-POA = 0.5
+POA = 0.1
 # P off B
-POB = 0.6
+POB = 0.4
 
 # P off not A
 PONA = None
@@ -95,7 +117,7 @@ PONB = None
 # P off A given B
 POAGB = None
 # P off B given A
-POBGA = 0.4
+POBGA = 0.5
 
 # P off A and B | P off B and A (same)
 POAAB = None
@@ -108,17 +130,17 @@ POBOA = None
 
 # POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA
 print('\n')
-print('P of A:',find_POA(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA))
-print('P of B:',find_POB(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA))
+print('P of A:',(round(find_POA(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA), 5)*100))
+print('P of B:',(round(find_POB(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA), 5)*100))
 
-print('P of not A:',find_PONA(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA))
-print('P of not B:',find_PONB(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA))
+print('P of not A:',(round(find_PONA(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA), 5)*100))
+print('P of not B:',(round(find_PONB(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA), 5)*100))
 
-print('P off A given B:',find_POBGA(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA))
-print('P off B given A:',find_POBGA(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA))
+print('P off A given B:',(round(find_POAGB(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA), 5)*100))
+print('P off B given A:',(round(find_POBGA(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA), 5)*100))
 
-print('P off A and B same as (B and A):',find_POBAA(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA))
+print('P off A and B same as (B and A):',(round(find_POBAA(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA), 5)*100))
 
-print('P off A or B:',find_POAOB(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA))
-print('P off B or A:',find_POBOA(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA))
+print('P off A or B:',(round(find_POAOB(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA), 5)*100))
+print('P off B or A:',(round(find_POBOA(POA, POB, PONA, PONB, POAGB, POBGA, POAAB, POBAA, POAOB, POBOA), 5)*100))
 print('\n')
