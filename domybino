@@ -4,26 +4,32 @@ def single_bino(n, p, k):
     answer = (math.factorial(n) / (math.factorial(n-k) * math.factorial(k))) * math.pow(p,k) * math.pow(1-p, n-k)
     return answer
 
-def accu_bino(n, p, k, start):
+def accu_bino(n, p, k, x, steps):
     answer = 0
-    for x in range (start ,k+1):
+    for x in range (x ,k+1):
         new_answer = (math.factorial(n) / (math.factorial(n-x) * math.factorial(x))) * math.pow(p,x) * math.pow(1-p, n-x)
-        print(f'Probability of X = {x}: {new_answer}')
+        if steps:
+            print(f'Probability of X = {x}: {new_answer}')
         answer += new_answer
     return answer
 
 # N = number of trials
 # P = probability of success
-# k = number of start for a specific outcome within N trials
-# start = from what value you want to start, ends at k loop while start≤k
+# X = loop while x≤k
+# K = number of K for a specific outcome within N trials
+# Steps = show each step of the calculation? True or False
 n = 4
 p = 0.7
-start = 0
-k = 2
+# From
+x = 0
+# To
+k = 3
+steps = True
 
 print('\n')
-print('\n')
-print('\n')
+print('---------------BINOMIAL---------------')
 #print(f'Probability of X = {k}: {single_bino(n,p,k)}')
-print(f'Probability of X ≤ {k}: {accu_bino(n,p,k,start)}')
+print(f'Probability of X ≤ {k}: {accu_bino(n,p,k,x,steps)}')
+print(f'Probability of X ≥ {k}: {1-accu_bino(n,p,k-1,x,steps=False)}')
+print('--------------------------------------')
 print('\n')
