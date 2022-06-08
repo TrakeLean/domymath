@@ -57,19 +57,19 @@ def find_length(N, M, n):
 def bi_co(top, bot):
     return math.factorial(top)/(math.factorial(bot) * math.factorial((top - bot)))
 
-
+# EG. We have a deck of cards (N=52), where we pull out 3 (n) cards without putting them back.
+# we want to pull out a picture card (M=16)
 # N total
-# M total taking out
-# x possible successes
-# n how many we want
+# M possible successes
+# n how many draw out
 # x-k range
-N = 50
-M = 5
-n = 4
+N = 52
+M = 4
+n = 3
 # From
 x = 0
 # To
-k = 4
+k = 0
 steps = True
 
 my = n*(M/N)

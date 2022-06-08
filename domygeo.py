@@ -14,11 +14,11 @@ def single_geometric(y,p):
     return answer
     
 # Probability
-p = 0.09
+p = 0.07692307692
 # From
 y = 0
 # To
-k = 5
+k = 13
 steps = True
 
 my = 1/p
