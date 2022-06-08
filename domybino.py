@@ -6,8 +6,9 @@ def make_graph(n,p,k,x,my,variance,std):
     data = []
     custom_color = []
     sum = accu_bino(n,p,k,x,False)
+    length = find_length(n, p)
     # Get data
-    for i in range(0, n+1):
+    for i in range(0, length):
         data.append(single_bino(n,p,i))
         range_.append(i)
         # Show highligthed colors
@@ -23,13 +24,21 @@ def make_graph(n,p,k,x,my,variance,std):
         if data[i] > 0.000009:
             plt.annotate(str(f'{data[i]:.5f}'), xy=(range_[i],data[i]), ha='center', va='bottom')
     # naming the x-axis
-    plt.xlabel(f'P(X≤{k}): {sum:.4f} --- µ: {my:.4f} --- σ2: {variance:.4f} --- σ: {std:.4f}')
+    plt.xlabel(f'P({x}≤X≤{k}): {sum:.4f} --- µ: {my:.4f} --- σ2: {variance:.4f} --- σ: {std:.4f}')
     # y-axis
     plt.ylabel(f'P(X=k)')
     # title
     plt.title('Binomial distribution!')
     # show the plot
     plt.show()
+    
+def find_length(n, p):
+    steps = 0
+    answer = 0
+    while answer <= 0.99999:
+        answer += (math.factorial(n) / (math.factorial(n-steps) * math.factorial(steps))) * math.pow(p,steps) * math.pow(1-p, n-steps)
+        steps += 1
+    return steps
        
 def single_bino(n, p, k):
     answer = (math.factorial(n) / (math.factorial(n-k) * math.factorial(k))) * math.pow(p,k) * math.pow(1-p, n-k)
@@ -49,12 +58,12 @@ def accu_bino(n, p, k, x, steps):
 # X = loop while x≤k
 # K = number of K for a specific outcome within N trials
 # Steps = show each step of the calculation? True or False
-n = 60
-p = 0.09
+n = 4
+p = 0.1
 # From
-x = 0
+x = 3
 # To
-k = 20
+k = 3
 steps = True
 
 my = n*p
@@ -66,13 +75,9 @@ print('\n')
 print('---------------BINOMIAL---------------')
 print(f'Expected value (µ): {my:.5f} --- Variance (σ2): {variance:.5f} --- Standard deviation (σ): {std:.5f}')
 #print(f'Probability of X = {k}: {single_bino(n,p,k)}')
-print(f'Probability of X ≤ {k}: {accu_bino(n,p,k,x,steps)}')
+print(f'Probability of X where {x} ≤ X ≤ {k}: {accu_bino(n,p,k,x,steps)}')
 #print(f'Probability of X ≥ {k}: {1-accu_bino(n,p,k-1,x,steps=False)}')
 print('--------------------------------------')
 print('\n')
 
 make_graph(n,p,k,x, my,variance,std)
-
-# u 2.8 - var 0.84 std 0.91652
-# u 17.5 - var 5.25 std 2.291
-# u 5.4 - var 4.914 std 2.216
